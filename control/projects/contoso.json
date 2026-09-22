@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.0",
+  "id": "contoso",
+  "name": "Contoso Data Studio",
+  "canonical_repo": "julian-passebecq/contoso-data-studio",
+  "donor_repos": [
+    "julian-passebecq/Contoso-Data-Generator-V2"
+  ],
+  "product_goal": "Generate realistic business data and build/inspect a complete local analytics data platform around DuckDB/DuckLake and dbt.",
+  "current_state": {
+    "canonical_repo": "initialized but currently minimal",
+    "generator": "separate Contoso generator repository already exists",
+    "migration_source": "Datapass contains reusable dbt/model/chart assets that should be extracted rather than rewritten blindly."
+  },
+  "target_state": {
+    "flow": [
+      "generate business data",
+      "CSV/JSON/Parquet/Excel inputs",
+      "DuckDB/DuckLake",
+      "Bronze",
+      "dbt staging/transforms",
+      "Silver",
+      "dimensions and facts",
+      "Gold marts",
+      "business KPIs",
+      "dbt Charts / result visualization"
+    ],
+    "owns": [
+      "Contoso data generation",
+      "DuckDB/DuckLake platform exploration",
+      "Bronze/Silver/Gold architecture",
+      "real dbt Core project execution",
+      "dbt models/tests/sources/seeds/snapshots/artifacts",
+      "dbt lineage",
+      "dimensional modeling",
+      "facts/dimensions",
+      "SCD 1/2/3 teaching",
+      "business marts and KPIs",
+      "dbt Charts or equivalent bounded result visualization",
+      "Parquet/JSON/CSV/Excel viewers and data profiling where useful"
+    ],
+    "does_not_own": [
+      "interview Arena",
+      "deep Airflow simulator",
+      "visual Data Factory product",
+      "generic coding algorithms"
+    ]
+  },
+  "dbt_rule": "Business calculations and KPIs belong in SQL/dbt models. Charts visualize outputs; charts are not the primary calculation engine.",
+  "cloud_extension": {
+    "motherduck": {
+      "status": "optional_later",
+      "rule": "Contoso must remain fully useful in local DuckDB/DuckLake mode. MotherDuck may become an explicit cloud execution/storage option, never a hidden dependency."
+    }
+  },
+  "reusable_assets_to_extract_from_datapass": [
+    "dbt Core runner and dbt-duckdb integration",
+    "dbt artifacts/compiled SQL/lineage viewers",
+    "chart resources and dbt Charts interoperability",
+    "data-model/star-schema/SCD teaching resources",
+    "DuckLake snapshots/file evidence",
+    "Bronze/Silver/Gold case machinery"
+  ]
+}
