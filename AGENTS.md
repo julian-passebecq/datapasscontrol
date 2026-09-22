@@ -6,7 +6,8 @@ This repository coordinates four separate products. Before editing any of them, 
 2. `control/projects/<product>.json`
 3. `control/relationships.json`
 4. `control/shared-assets.json`
-5. `control/workstreams.json`
+5. relevant files under `control/decisions/`
+6. `control/workstreams.json`
 
 ## Rules for AI agents
 
@@ -18,6 +19,10 @@ This repository coordinates four separate products. Before editing any of them, 
 - Do not create a generic shared framework unless two products have already proven the same stable boundary.
 - React Flow graph mechanics may be shared, but Airflow DAGs, Data Factory pipelines and Mapping Data Flows keep separate domain models.
 - Never claim that a simulated Spark, Airflow, Fabric or SQL Server capability is the real external engine.
+- For FactoryLab, read `control/decisions/duckle-factorylab.json` before executor work. Do not write a new generic ETL executor before the Duckle adapter/fork spike is completed.
+- Duckle is not Airflow and not Microsoft Fabric. Preserve those truth boundaries.
+- Airflow deep teaching ownership stays in CaseLab; FactoryLab may only add explicit interoperability later.
+- A Duckle fork is not the default. Prefer documented JSON/CLI/HTTP adapter boundaries first; fork only for a measured blocker.
 
 ## Coordination protocol
 
