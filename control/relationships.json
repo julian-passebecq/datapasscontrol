@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "updated_at": "2026-09-22",
   "product_progression": [
     {
@@ -60,16 +60,31 @@
       "consumers": [
         "factorylab"
       ],
-      "split": "FactoryLab owns Data Factory pipeline runtime/control API."
+      "split": "FactoryLab Fabric-semantic/control adapter; do not duplicate Duckle's general ETL executor if the integration spike succeeds."
+    },
+    {
+      "service": "duckle",
+      "consumers": [
+        "factorylab"
+      ],
+      "split": "Primary lower-layer candidate for real visual ETL/data-flow execution, DuckDB/DuckLake work, previews, lineage, scheduling and run evidence."
     }
   ],
+  "airflow_placement": {
+    "primary_product": "caselab",
+    "datapass": "Thin Airflow Python scratchpad: parse/validate/DAG preview and interview questions.",
+    "caselab": "Deep Airflow teaching: scheduler states, retries, trigger rules, failures, backfills/timelines/XCom-like concepts via fastapiflow.",
+    "factorylab": "No Airflow simulator. May later teach interoperability by invoking FactoryLab/Duckle pipelines from Airflow.",
+    "contoso": "No Airflow product surface by default; it may be used externally to orchestrate platform jobs."
+  },
   "ownership_rules": [
     "dbt platform ownership -> Contoso; CaseLab may have bounded dbt exercises; Datapass should not own dbt Studio.",
     "visual Data Factory ownership -> FactoryLab.",
     "interview drill ownership -> Datapass.",
     "realistic take-home/case ownership -> CaseLab.",
     "data generation + dimensional analytics platform ownership -> Contoso.",
-    "React Flow may be reused across Airflow DAG, Data Factory pipeline and Mapping Data Flow views, but their schemas/semantics remain separate.",
-    "Notebook UI/Monaco can be reused, but each product owns its own product state and learning workflows."
+    "React Flow may be reused across Airflow DAG, Data Factory pipeline, Mapping Data Flow and Duckle-derived graphs, but their schemas/semantics remain separate.",
+    "Notebook UI/Monaco can be reused, but each product owns its own product state and learning workflows.",
+    "Duckle may provide FactoryLab's lower execution layer; it does not change product ownership or make FactoryLab an Airflow product."
   ]
 }
