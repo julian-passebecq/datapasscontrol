@@ -1,14 +1,15 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "id": "factorylab",
   "name": "Fabric Factory Lab",
   "alternate_name": "Data Factory Lab",
   "canonical_repo": null,
-  "product_goal": "Teach visual Data Factory/Fabric pipeline orchestration and Mapping Data Flow concepts locally, with selected activities executing for real against DuckDB/DuckLake.",
+  "product_goal": "Teach visual Microsoft Fabric/Data Factory pipeline orchestration and Mapping Data Flow concepts while executing useful local data work for real on DuckDB/DuckLake.",
   "current_assets": {
     "frontend_donor": {
       "repo": "julian-passebecq/ducklabms_code",
       "path": "migration-sources/fabric",
+      "graph_engine": "React Flow / @xyflow/react via LearningGraph",
       "existing_surfaces": [
         "PipelineStudio",
         "PipelineCanvas",
@@ -23,7 +24,7 @@
         "shared LearningGraph / XYFlow"
       ]
     },
-    "backend": {
+    "fabric_semantic_backend": {
       "repo": "julian-passebecq/fastapi-fabric",
       "existing_capabilities": [
         "pipeline CRUD",
@@ -47,58 +48,115 @@
         "Wait",
         "SetVariable",
         "ExecutePipeline"
-      ]
+      ],
+      "future_role": "Keep Fabric/Data Factory semantics and API contracts; become adapter/control layer rather than a duplicate general ETL executor."
+    },
+    "duckle_external_foundation": {
+      "repo": "slothflowlabs/duckle",
+      "site": "https://duckle.org/",
+      "license": "MIT OR Apache-2.0",
+      "verified_capabilities": [
+        "React + @xyflow/react visual pipeline editor",
+        "plain JSON pipeline format",
+        "DuckDB execution engine with topological graph execution",
+        "generated readable SQL / plan per node",
+        "DuckLake sources and sinks, including CDC and time-travel-related components",
+        "large source/transform/sink/quality/control/code component registry",
+        "per-node status, row counts, timings and previews",
+        "column lineage",
+        "run history",
+        "cron, interval and file-watch scheduling",
+        "headless duckle-runner and server/HTTP execution",
+        "control-flow nodes including foreach, switch, wait, try/fallback and child-pipeline execution",
+        "dbt execution capability",
+        "MCP tooling"
+      ],
+      "architecture_truth": "Duckle is not Microsoft Fabric and is not Airflow. It is a real local/self-hosted ETL/ELT engine and visual pipeline product built on DuckDB.",
+      "decision": "Primary lower-layer candidate. Run an integration/fork spike before writing any new generic FactoryLab executor."
     }
   },
   "target_state": {
     "major_surfaces": [
-      "Pipeline Studio: orchestration/control flow",
+      "Pipeline Studio: Fabric/Data Factory orchestration/control-flow UX",
       "Mapping Data Flow Studio: row/data transformations",
       "Notebook invocation/editor integration",
       "Data/DuckLake explorer",
       "Monitor/run history"
     ],
     "graph_engine": "React Flow / @xyflow/react",
-    "graph_rule": "Reuse the renderer and shared mechanics, but keep pipeline, Mapping Data Flow and Airflow domain models separate.",
-    "real_local_execution_targets": [
-      "Copy: CSV/JSON/Parquet/table -> DuckDB/DuckLake",
-      "Lookup: real DuckDB query",
-      "SqlScript: real DuckDB SQL, never mislabeled as SQL Server T-SQL",
-      "Notebook: shared local notebook execution",
-      "SetVariable/If/Switch/ForEach/Until/Wait/ExecutePipeline: bounded local control flow",
-      "data-quality checks"
+    "graph_rule": "React Flow is the common rendering technology, but Fabric pipelines, Mapping Data Flows and Airflow DAGs keep separate domain models and semantics.",
+    "layered_architecture": [
+      "Fabric/ADF React UI and learning semantics",
+      "fastapi-fabric semantic/control adapter",
+      "Duckle pipeline JSON + duckle-runner/HTTP execution",
+      "DuckDB/DuckLake physical execution and data state"
     ],
-    "mapping_data_flow_targets": [
-      "Source",
-      "Select",
-      "Derived Column",
-      "Filter",
-      "Aggregate",
-      "Join",
-      "Conditional Split",
-      "Lookup",
-      "Union",
-      "Sink",
-      "real Data Preview from partial-flow execution",
-      "schema propagation/Inspect",
-      "Optimize education for partitioning"
+    "fabric_to_duckle_translation_targets": [
+      "Copy -> Duckle source/sink path",
+      "Lookup -> DuckDB/Duckle query component",
+      "SqlScript -> Duckle SQL/code node with explicit DuckDB truth label",
+      "Data Flow Source/Select/Derived Column/Filter/Aggregate/Join/Conditional Split/Lookup/Union/Sink -> Duckle graph components where semantics match",
+      "quality checks -> Duckle qa.* components where semantics match",
+      "ForEach/Switch/Wait/child pipeline -> Duckle ctl.* where semantics match",
+      "Notebook -> separate notebook executor/adaptor unless a reviewed Duckle code runner is an exact semantic fit"
+    ],
+    "fastapi_fabric_retained_responsibilities": [
+      "Fabric-like activity schema and properties",
+      "ADF/Fabric parameters, variables and dynamic-expression teaching",
+      "dependency conditions and Fabric-specific validation",
+      "nested-activity authoring semantics",
+      "truth labels distinguishing Fabric, Duckle, DuckDB and simulation",
+      "translation from FactoryLab IR to Duckle pipeline documents",
+      "normalizing Duckle run evidence for the FactoryLab UI"
+    ],
+    "duckle_execution_responsibilities": [
+      "general data movement and transforms",
+      "generated SQL",
+      "DuckDB execution",
+      "row counts/timings/previews",
+      "lineage",
+      "connector execution",
+      "data-quality execution",
+      "supported control-flow execution",
+      "optional run history/scheduling when FactoryLab elects Duckle as scheduler of record"
     ],
     "ducklake_differentiator": [
-      "before/after snapshots per mutating activity",
+      "surface Duckle/DuckLake source and sink behavior",
+      "before/after snapshot evidence when available",
       "row/file evidence",
-      "time-travel inspection",
+      "time-travel and change inspection",
       "data-state-aware pipeline debugging"
     ],
-    "simulated_or_external_only": [
-      "SQL Server stored procedures unless a real SQL Server adapter is connected",
-      "Microsoft Fabric cloud activities unless an explicit external adapter is connected",
-      "Spark partition behavior when no real Spark runtime is selected"
-    ]
+    "mapping_data_flow_learning": [
+      "Source Settings / Source Options / Projection / Optimize / Inspect / Data Preview style learning surface",
+      "real Data Preview from translated partial-flow execution",
+      "schema propagation/Inspect backed by real plan/schema evidence when possible",
+      "partition options taught honestly: Duckle/DuckDB behavior is not mislabeled as Fabric Spark partition execution"
+    ],
+    "dbt_boundary": "FactoryLab may invoke dbt as a pipeline activity through Duckle or an adapter, but full dbt project authoring/modeling ownership remains Contoso.",
+    "scheduler_rule": "Choose one scheduler of record for a deployment. If Duckle schedules a pipeline, do not also let an external Airflow scheduler own the same cadence."
+  },
+  "airflow_boundary": {
+    "owns_airflow_runtime": false,
+    "rule": "FactoryLab does not become an Airflow simulator. Airflow is Python-first orchestration and remains a CaseLab teaching/runtime concern.",
+    "allowed_integration": "Later expose an interoperability lesson or export/operator that runs a Duckle/FactoryLab pipeline from Airflow. Duckle documents CLI and HTTP orchestration from Airflow but currently ships no official Airflow provider package."
+  },
+  "fork_strategy": {
+    "default": "adapter_first",
+    "rationale": "Our Fabric/ADF donor UI is already product-specific. Duckle already supplies the expensive lower layer. Wrapping its stable pipeline/runner interfaces avoids maintaining a large divergent fork while preserving Fabric semantics.",
+    "required_spike": [
+      "Map a small FactoryLab pipeline to Duckle pipeline JSON",
+      "execute it through duckle-runner or server API",
+      "recover per-node rows/timings/errors/preview/lineage",
+      "test DuckLake source/sink and one control-flow node",
+      "measure what Fabric semantics cannot be represented without an adapter"
+    ],
+    "fork_trigger": "Fork Duckle only if adapter boundaries prevent required educational UX or evidence access. Do not write a greenfield executor before this spike."
   },
   "scope_boundary": {
-    "not_airflow": "FactoryLab teaches visual Data Factory orchestration, not Python-first Airflow scheduling.",
+    "not_airflow": "FactoryLab teaches visual Data Factory/Fabric orchestration, not Python-first Airflow scheduling.",
     "not_contoso": "FactoryLab consumes/moves/transforms data; Contoso owns the broader analytics/data-platform model.",
     "not_datapass": "FactoryLab is not a LeetCode/coding drill product."
   },
-  "next_assembly_step": "Create/assign a standalone frontend repo, extract the Fabric donor UI, connect it to fastapi-fabric, then make Copy/Lookup/SQL real before expanding breadth."
+  "next_assembly_step": "Run the Duckle integration spike first; then assign a standalone FactoryLab frontend repo and assemble the existing Fabric donor UI over fastapi-fabric + Duckle instead of implementing a new generic executor."
 }
