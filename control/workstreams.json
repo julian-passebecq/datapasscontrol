@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "updated_at": "2026-09-22",
   "purpose": "Lightweight coordination registry. It records the current portfolio-level milestone for each product, not every coding task.",
   "claim_protocol": {
@@ -34,12 +34,12 @@
       "product": "caselab",
       "priority": "high",
       "status": "planned",
-      "goal": "Turn the Zillacode donor into a multi-step DE assignment product.",
+      "goal": "Turn the Zillacode donor into a multi-step DE assignment product and make it the primary deep Airflow teaching surface.",
       "next_actions": [
         "Assign a canonical GitHub repository.",
         "Import/audit the Zillacode donor content.",
         "Convert useful Scala exercises by semantic intent rather than one-to-one translation.",
-        "Define fastapiflow contract and deeper fastapispark case integration."
+        "Define fastapiflow contract for Airflow scheduler semantics and deeper fastapispark case integration."
       ],
       "blocked_by": [
         "Canonical repo not assigned."
@@ -47,19 +47,38 @@
       "claim": null
     },
     {
+      "id": "factorylab-duckle-spike",
+      "product": "factorylab",
+      "priority": "highest",
+      "status": "ready",
+      "goal": "Prove Duckle can supply FactoryLab's real lower execution layer before writing or expanding a custom executor.",
+      "next_actions": [
+        "Create a minimal mapping from FactoryLab IR to Duckle pipeline JSON.",
+        "Run Copy/source -> transform -> DuckLake sink through duckle-runner or Duckle server HTTP.",
+        "Capture per-node status, row counts, timings, preview, generated SQL and lineage.",
+        "Exercise one Duckle control-flow node and one DuckLake-specific source/sink/change path.",
+        "Document semantic gaps between Fabric activities/dynamic expressions and Duckle components.",
+        "Decide adapter-first vs maintained Duckle fork from evidence."
+      ],
+      "blocked_by": [],
+      "claim": null
+    },
+    {
       "id": "factorylab-assembly",
       "product": "factorylab",
       "priority": "high",
-      "status": "ready",
-      "goal": "Assemble the existing Fabric/ADF React Flow donor UI with fastapi-fabric into a standalone learning app.",
+      "status": "blocked_on_duckle_spike",
+      "goal": "Assemble the existing Fabric/ADF React Flow donor UI with fastapi-fabric and the selected Duckle integration into a standalone learning app.",
       "next_actions": [
         "Assign/create the standalone frontend repository.",
         "Extract PipelineStudio, Mapping Data Flow, Monitor and shared XYFlow mechanics from the donor.",
-        "Connect pipeline CRUD/validation/expressions/run history to fastapi-fabric.",
-        "Make Copy, Lookup and DuckDB SQL real local executors before broadening activity coverage.",
-        "Make Mapping Data Flow Data Preview execute real partial flows."
+        "Connect Fabric semantic CRUD/validation/expressions to fastapi-fabric.",
+        "Connect real data execution to the Duckle adapter selected by the spike.",
+        "Make Mapping Data Flow Data Preview execute real translated partial flows."
       ],
-      "blocked_by": [],
+      "blocked_by": [
+        "factorylab-duckle-spike"
+      ],
       "claim": null
     },
     {
