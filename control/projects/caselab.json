@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "id": "caselab",
+  "name": "Zilla / CaseLab",
+  "working_name": "CaseLab",
+  "canonical_repo": null,
+  "source_status": {
+    "donor": "uploaded zillacode source archive",
+    "github_repo": "not assigned",
+    "note": "Assign a canonical repository before agents begin product-wide implementation."
+  },
+  "product_goal": "Simulate realistic data-engineering take-home assignments and multi-step technical cases that combine coding, orchestration, debugging and architectural reasoning.",
+  "target_state": {
+    "primary_surfaces": [
+      "case browser",
+      "multi-step assignment workspace",
+      "code/notebook editor",
+      "Spark execution/diagnostics",
+      "Airflow DAG execution simulation",
+      "bounded dbt exercises",
+      "grading and reasoning prompts"
+    ],
+    "owns": [
+      "30-minute to 3-hour DE assignments",
+      "multi-file and multi-step tasks",
+      "scalability/debugging questions",
+      "deep Spark teaching around stages, partitioning, skew and shuffle",
+      "Airflow scheduler concepts: states, retries, trigger rules, failure propagation, timelines",
+      "bounded dbt exercise/case scenarios"
+    ],
+    "does_not_own": [
+      "single-question drill-first experience; that is Datapass",
+      "full dbt analytics platform; that is Contoso",
+      "full visual Data Factory authoring; that is FactoryLab"
+    ]
+  },
+  "runtimes": {
+    "fastapispark": {
+      "repo": "julian-passebecq/fastapispark",
+      "role": "Primary bounded Spark execution and simulation service"
+    },
+    "fastapiflow": {
+      "repo": null,
+      "candidate_repo": "julian-passebecq/datapass-airflow-runner",
+      "role": "Planned bounded Airflow semantics/scheduler simulation service"
+    },
+    "dbt": {
+      "mode": "bounded exercise/case use",
+      "ownership_rule": "Do not recreate a full dbt Studio here; real platform-level dbt ownership belongs to Contoso."
+    }
+  },
+  "content_migration": {
+    "zillacode_scala_rule": "Do not translate Scala mechanically.",
+    "mapping": [
+      {
+        "if_problem_teaches": "Spark-specific transformations/windows/partitioning",
+        "target": "PySpark"
+      },
+      {
+        "if_problem_teaches": "generic DataFrame manipulation",
+        "target": "pandas or Polars"
+      },
+      {
+        "if_problem_teaches": "relational transformation",
+        "target": "SQL"
+      },
+      {
+        "if_problem_teaches": "generic algorithms/data structures",
+        "target": "Python"
+      },
+      {
+        "if_problem_teaches": "Scala/JVM-specific behavior only",
+        "target": "archive unless explicitly useful"
+      }
+    ]
+  },
+  "data_sources": [
+    "small built-in fixtures",
+    "Contoso-generated datasets for realistic cases"
+  ]
+}
