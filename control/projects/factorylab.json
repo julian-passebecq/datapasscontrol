@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "id": "factorylab",
+  "name": "Fabric Factory Lab",
+  "alternate_name": "Data Factory Lab",
+  "canonical_repo": null,
+  "product_goal": "Teach visual Data Factory/Fabric pipeline orchestration and Mapping Data Flow concepts locally, with selected activities executing for real against DuckDB/DuckLake.",
+  "current_assets": {
+    "frontend_donor": {
+      "repo": "julian-passebecq/ducklabms_code",
+      "path": "migration-sources/fabric",
+      "existing_surfaces": [
+        "PipelineStudio",
+        "PipelineCanvas",
+        "ActivityPalette",
+        "PropertiesPanel",
+        "RunOutput",
+        "ScheduleDialog",
+        "NestedActivityEditor",
+        "DebugParametersDialog",
+        "MonitorView",
+        "AzureMappingDataFlowStudio",
+        "shared LearningGraph / XYFlow"
+      ]
+    },
+    "backend": {
+      "repo": "julian-passebecq/fastapi-fabric",
+      "existing_capabilities": [
+        "pipeline CRUD",
+        "validation",
+        "parameters",
+        "variables",
+        "dependency conditions",
+        "expression evaluation",
+        "run history",
+        "cancellation API",
+        "deterministic simulated execution"
+      ],
+      "modeled_activity_types": [
+        "Copy",
+        "Lookup",
+        "Notebook",
+        "SqlScript",
+        "ForEach",
+        "IfCondition",
+        "Switch",
+        "Wait",
+        "SetVariable",
+        "ExecutePipeline"
+      ]
+    }
+  },
+  "target_state": {
+    "major_surfaces": [
+      "Pipeline Studio: orchestration/control flow",
+      "Mapping Data Flow Studio: row/data transformations",
+      "Notebook invocation/editor integration",
+      "Data/DuckLake explorer",
+      "Monitor/run history"
+    ],
+    "graph_engine": "React Flow / @xyflow/react",
+    "graph_rule": "Reuse the renderer and shared mechanics, but keep pipeline, Mapping Data Flow and Airflow domain models separate.",
+    "real_local_execution_targets": [
+      "Copy: CSV/JSON/Parquet/table -> DuckDB/DuckLake",
+      "Lookup: real DuckDB query",
+      "SqlScript: real DuckDB SQL, never mislabeled as SQL Server T-SQL",
+      "Notebook: shared local notebook execution",
+      "SetVariable/If/Switch/ForEach/Until/Wait/ExecutePipeline: bounded local control flow",
+      "data-quality checks"
+    ],
+    "mapping_data_flow_targets": [
+      "Source",
+      "Select",
+      "Derived Column",
+      "Filter",
+      "Aggregate",
+      "Join",
+      "Conditional Split",
+      "Lookup",
+      "Union",
+      "Sink",
+      "real Data Preview from partial-flow execution",
+      "schema propagation/Inspect",
+      "Optimize education for partitioning"
+    ],
+    "ducklake_differentiator": [
+      "before/after snapshots per mutating activity",
+      "row/file evidence",
+      "time-travel inspection",
+      "data-state-aware pipeline debugging"
+    ],
+    "simulated_or_external_only": [
+      "SQL Server stored procedures unless a real SQL Server adapter is connected",
+      "Microsoft Fabric cloud activities unless an explicit external adapter is connected",
+      "Spark partition behavior when no real Spark runtime is selected"
+    ]
+  },
+  "scope_boundary": {
+    "not_airflow": "FactoryLab teaches visual Data Factory orchestration, not Python-first Airflow scheduling.",
+    "not_contoso": "FactoryLab consumes/moves/transforms data; Contoso owns the broader analytics/data-platform model.",
+    "not_datapass": "FactoryLab is not a LeetCode/coding drill product."
+  },
+  "next_assembly_step": "Create/assign a standalone frontend repo, extract the Fabric donor UI, connect it to fastapi-fabric, then make Copy/Lookup/SQL real before expanding breadth."
+}
