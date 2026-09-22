@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "id": "caselab",
   "name": "Zilla / CaseLab",
   "working_name": "CaseLab",
@@ -42,12 +42,18 @@
     "fastapiflow": {
       "repo": null,
       "candidate_repo": "julian-passebecq/datapass-airflow-runner",
-      "role": "Planned bounded Airflow semantics/scheduler simulation service"
+      "role": "Planned bounded Airflow semantics/scheduler simulation service",
+      "ownership": "CaseLab is the primary product for deep Airflow runtime/scheduler teaching."
     },
     "dbt": {
       "mode": "bounded exercise/case use",
       "ownership_rule": "Do not recreate a full dbt Studio here; real platform-level dbt ownership belongs to Contoso."
     }
+  },
+  "duckle_relationship": {
+    "primary_runtime": false,
+    "possible_use": "CaseLab may later run a Duckle pipeline as a case artifact, but Duckle does not replace fastapiflow for Airflow semantics.",
+    "reason": "Duckle has its own scheduling/control flow and can be driven from Airflow, but it is not an Airflow scheduler emulator and does not teach Airflow-specific semantics by itself."
   },
   "content_migration": {
     "zillacode_scala_rule": "Do not translate Scala mechanically.",
