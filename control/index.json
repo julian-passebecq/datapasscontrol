@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "updated_at": "2026-09-22",
   "repository": "julian-passebecq/datapasscontrol",
   "purpose": "Machine-readable portfolio architecture registry for AI agents coordinating four related data-engineering products.",
@@ -43,9 +43,9 @@
       "control_file": "control/projects/factorylab.json",
       "canonical_repo": null,
       "lifecycle": {
-        "current": "rich frontend donor exists in Datapass; standalone FastAPI backend exists",
-        "target": "standalone visual pipeline/data-flow learning app",
-        "transition": "assembly in progress"
+        "current": "Fabric/ADF React Flow donor UI + fastapi-fabric simulation backend exist; Duckle identified as primary real execution foundation candidate",
+        "target": "standalone Fabric/Data Factory learning app over Duckle-powered local ETL/data-flow execution",
+        "transition": "Duckle integration spike before any custom executor work"
       }
     },
     {
@@ -82,7 +82,7 @@
         "datapass",
         "caselab"
       ],
-      "contract": "Datapass gets compile/validate/DAG preview only; CaseLab gets scheduler-state simulation, retries, trigger rules, failures and timelines."
+      "contract": "Datapass gets compile/validate/DAG preview only; CaseLab owns Airflow scheduler-state simulation, retries, trigger rules, failures and timelines."
     },
     {
       "id": "fastapi-fabric",
@@ -91,11 +91,27 @@
       "consumers": [
         "factorylab"
       ],
-      "contract": "Owns pipeline definitions, validation, expressions, run history and future local/external activity executors."
+      "contract": "Fabric semantic/control API: pipeline definitions, parameters, variables, dependency conditions, expression evaluation, validation, learning truth and adapter boundary. It should not reimplement a general ETL engine if Duckle can provide the lower layer."
+    }
+  ],
+  "external_foundations": [
+    {
+      "id": "duckle",
+      "repo": "slothflowlabs/duckle",
+      "site": "https://duckle.org/",
+      "license": "MIT OR Apache-2.0",
+      "state": "primary_factorylab_execution_foundation_candidate",
+      "consumers": [
+        "factorylab"
+      ],
+      "decision_file": "control/decisions/duckle-factorylab.json",
+      "contract": "Evaluate adapter-first use of Duckle pipeline JSON/runner/HTTP execution before writing a new FactoryLab executor or forking the full Duckle product."
     }
   ],
   "control_files": {
     "relationships": "control/relationships.json",
-    "shared_assets": "control/shared-assets.json"
+    "shared_assets": "control/shared-assets.json",
+    "workstreams": "control/workstreams.json",
+    "duckle_factorylab_decision": "control/decisions/duckle-factorylab.json"
   }
 }
