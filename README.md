@@ -10,7 +10,9 @@ This repository is intentionally **not** an application. It is a small machine-r
 2. The relevant file under `control/projects/`
 3. `control/relationships.json`
 4. `control/shared-assets.json`
-5. The actual product repository before making implementation claims
+5. Relevant architecture decision under `control/decisions/`
+6. `control/workstreams.json`
+7. The actual product repository before making implementation claims
 
 ## Source-of-truth rule
 
@@ -21,12 +23,12 @@ This repository is intentionally **not** an application. It is a small machine-r
 
 ## Product family
 
-| Product | Primary job | Unit of work |
-|---|---|---|
-| **Datapass** | Data-engineering coding/interview practice | Question / algorithm / notebook cell |
-| **Zilla / CaseLab** | Realistic DE take-homes and multi-step cases | Assignment / case |
-| **Fabric Factory Lab** | Visual pipeline and Data Factory learning | Pipeline / activity / data flow |
-| **Contoso Data Studio** | Build and inspect a realistic local data platform | Dataset / lakehouse / warehouse model |
+| Product | Primary job | Unit of work | Important runtime boundary |
+|---|---|---|---|
+| **Datapass** | Data-engineering coding/interview practice | Question / algorithm / notebook cell | Thin PySpark and Airflow coding surfaces only |
+| **Zilla / CaseLab** | Realistic DE take-homes and multi-step cases | Assignment / case | Deep Spark and Airflow teaching/simulation |
+| **Fabric Factory Lab** | Visual pipeline and Data Factory learning | Pipeline / activity / data flow | Fabric semantics over Duckle/DuckDB/DuckLake where proven |
+| **Contoso Data Studio** | Build and inspect a realistic local data platform | Dataset / lakehouse / warehouse model | DuckLake + real dbt + dimensional analytics |
 
 The intended progression is:
 
@@ -46,13 +48,35 @@ Contoso Data Studio
 
 The products share ideas and selected engines, but should not collapse into one giant application.
 
+## Important FactoryLab decision
+
+Duckle (`slothflowlabs/duckle`) is now the primary candidate for FactoryLab's lower execution layer. It already provides a React Flow visual pipeline, DuckDB execution, DuckLake support, generated SQL, previews, per-node evidence, lineage, scheduling, run history, control-flow nodes and headless execution.
+
+FactoryLab should therefore **spike Duckle integration before writing a new generic executor**. The preferred direction is:
+
+```text
+Fabric/ADF learning UI
+        ↓
+fastapi-fabric
+Fabric semantics / validation / translation
+        ↓
+Duckle pipeline JSON / runner / server
+        ↓
+DuckDB / DuckLake
+```
+
+See `control/decisions/duckle-factorylab.json`.
+
+Airflow remains a separate semantic domain: Datapass may offer a thin code→DAG scratchpad, while CaseLab owns deep Airflow scheduler/retry/trigger-rule teaching. FactoryLab may later demonstrate Airflow interoperability, but does not become the Airflow product.
+
 ## Update protocol
 
 When an agent materially changes product scope or transfers ownership of a capability:
 
 1. update the relevant `control/projects/<id>.json`;
 2. update `control/relationships.json` or `control/shared-assets.json` only if the cross-product contract changed;
-3. keep `current_state` and `target_state` separate;
-4. record implementation truth in the actual application repository, not only here.
+3. update a decision file when a foundational technology choice changes;
+4. keep `current_state` and `target_state` separate;
+5. record implementation truth in the actual application repository, not only here.
 
 Do not store secrets, local tokens, private URLs or generated runtime credentials in this repository.
