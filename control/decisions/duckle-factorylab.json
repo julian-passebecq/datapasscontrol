@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "id": "duckle-factorylab",
+  "date": "2026-09-22",
+  "status": "accepted_direction_pending_integration_spike",
+  "question": "Should FactoryLab build/fork a new local ETL executor, or reuse Duckle as the lower execution foundation?",
+  "conclusion": "Treat Duckle as the primary lower-layer candidate and stop greenfield executor work until an adapter/fork spike is complete. Default to adapter-first; fork only for measured gaps.",
+  "verified_research": {
+    "project": "slothflowlabs/duckle",
+    "license": "MIT OR Apache-2.0",
+    "architecture": [
+      "React frontend using @xyflow/react",
+      "Rust/Tauri desktop and Rust engine crates",
+      "plain pipeline JSON shared across authoring/execution paths",
+      "DuckDB engine topologically sorts graphs, lowers stages to SQL and executes them",
+      "headless duckle-runner and server mode exist"
+    ],
+    "relevant_capabilities": [
+      "visual sources/transforms/validators/sinks/control/code nodes",
+      "DuckLake read/write and CDC-related capabilities",
+      "generated SQL / plan",
+      "per-node status, rows, timings and previews",
+      "column lineage",
+      "run history",
+      "cron/interval/file-watch scheduling",
+      "child pipelines and control-flow nodes such as foreach, switch, wait, try/fallback and parallelization",
+      "dbt execution",
+      "MCP"
+    ],
+    "airflow_truth": [
+      "Duckle is not Airflow.",
+      "Duckle documents being driven by Airflow, Dagster or Temporal via CLI or HTTP.",
+      "There are currently no official provider packages; an Airflow operator would be a thin integration built on stable CLI/HTTP surfaces.",
+      "If Airflow owns the schedule, Duckle recommends leaving Duckle scheduling off to avoid two schedulers owning one cadence."
+    ]
+  },
+  "product_impact": {
+    "factorylab": "Duckle can replace much of the planned generic local ETL/data-flow executor, connector layer, generated-SQL engine, preview/lineage and scheduling substrate.",
+    "fastapi_fabric": "Retain as the Fabric semantics/control/translation API. Do not grow it into a second generic ETL engine unless the Duckle spike proves necessary.",
+    "fabric_frontend_donor": "Retain because the product goal is Fabric/Data Factory learning UX, not a Duckle clone.",
+    "contoso": "No ownership change. Contoso remains the full data-platform/dbt/modeling studio, though FactoryLab can consume Contoso datasets.",
+    "datapass": "No ownership change.",
+    "caselab": "Airflow remains here as the deep scheduler-semantics teaching surface; Duckle does not replace fastapiflow."
+  },
+  "integration_options": [
+    {
+      "rank": 1,
+      "strategy": "adapter_first",
+      "shape": "FactoryLab React/Fluent UI -> fastapi-fabric -> FactoryLab-to-Duckle translator -> Duckle pipeline JSON -> duckle-runner/server -> DuckDB/DuckLake",
+      "reason": "Preserves our Fabric-specific UX and semantics while reusing Duckle's expensive execution/observability layer and minimizing fork maintenance."
+    },
+    {
+      "rank": 2,
+      "strategy": "selective_fork",
+      "shape": "Fork Duckle only after the spike identifies required internals unavailable through documented JSON/CLI/HTTP boundaries.",
+      "reason": "License permits it and the frontend already uses React Flow, but maintaining a large Rust/Tauri/React fork is a real long-term cost."
+    },
+    {
+      "rank": 3,
+      "strategy": "greenfield_executor",
+      "shape": "Expand fastapi-fabric into its own full ETL engine.",
+      "reason": "Avoid unless Duckle cannot satisfy core requirements; it would duplicate substantial proven functionality."
+    }
+  ],
+  "spike_acceptance": [
+    "Translate and execute a basic Copy pipeline.",
+    "Translate and execute a Source -> Select/Filter -> DuckLake Sink data flow.",
+    "Return per-node status, rows, timings and error details into FactoryLab.",
+    "Obtain data preview and generated SQL/plan.",
+    "Obtain lineage or document any API gap.",
+    "Exercise one Duckle ctl.* control node.",
+    "Verify DuckLake source/sink/change behavior.",
+    "Document schedule/run-history integration options.",
+    "List exact Fabric semantics that require fastapi-fabric-only handling."
+  ],
+  "no_go_rules": [
+    "Do not call Duckle Microsoft Fabric or Apache Airflow.",
+    "Do not use Duckle scheduling and Airflow scheduling simultaneously for the same owned cadence.",
+    "Do not move Airflow teaching ownership from CaseLab to FactoryLab.",
+    "Do not expose Duckle dbt capability as a reason to move dbt product ownership out of Contoso.",
+    "Do not fork Duckle merely to change colors or labels."
+  ]
+}
