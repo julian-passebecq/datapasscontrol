@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-09-22",
+  "principle": "Share proven engines/components and patterns; do not create a premature monolithic framework or shared state database across all products.",
+  "assets": [
+    {
+      "id": "notebook_core",
+      "current_location": "julian-passebecq/ducklabms_code",
+      "type": "frontend_and_document_model",
+      "consumers": [
+        "datapass",
+        "factorylab",
+        "caselab"
+      ],
+      "reuse_rule": "Reuse/adapt notebook document and editor patterns. Datapass remains the primary notebook product."
+    },
+    {
+      "id": "monaco_editor",
+      "current_location": "julian-passebecq/ducklabms_code",
+      "type": "frontend_component",
+      "consumers": [
+        "datapass",
+        "factorylab",
+        "caselab"
+      ],
+      "reuse_rule": "Common coding editor pattern; product state stays separate."
+    },
+    {
+      "id": "react_flow_graph_mechanics",
+      "current_location": "julian-passebecq/ducklabms_code apps/web/src/foundation/GraphCanvas.tsx and migration-sources/fabric",
+      "type": "frontend_component_pattern",
+      "consumers": [
+        "datapass",
+        "factorylab",
+        "caselab"
+      ],
+      "reuse_rule": "Share graph mechanics only. Do not share one universal DAG/pipeline schema."
+    },
+    {
+      "id": "fastapispark",
+      "current_location": "julian-passebecq/fastapispark",
+      "type": "specialist_service",
+      "consumers": [
+        "datapass",
+        "caselab"
+      ],
+      "reuse_rule": "One bounded Spark service with different product depth/exposure."
+    },
+    {
+      "id": "fastapi_fabric",
+      "current_location": "julian-passebecq/fastapi-fabric",
+      "type": "specialist_service",
+      "consumers": [
+        "factorylab"
+      ],
+      "reuse_rule": "Canonical backend seed for FactoryLab."
+    },
+    {
+      "id": "contoso_generator",
+      "current_location": "julian-passebecq/Contoso-Data-Generator-V2",
+      "type": "data_generator",
+      "consumers": [
+        "contoso",
+        "caselab",
+        "factorylab"
+      ],
+      "reuse_rule": "Contoso owns generation; other products consume exported fixtures/scenarios."
+    },
+    {
+      "id": "datapass_analytics_assets",
+      "current_location": "julian-passebecq/ducklabms_code",
+      "type": "migration_donor",
+      "consumers": [
+        "contoso",
+        "factorylab"
+      ],
+      "reuse_rule": "Extract dbt/model/chart assets to Contoso and Fabric pipeline donor assets to FactoryLab before removing/hiding them from Datapass."
+    }
+  ],
+  "avoid": [
+    "one shared mutable workspace database across all four products",
+    "one universal graph schema for Airflow, Data Factory and data flows",
+    "duplicating dbt platform code in Datapass and CaseLab",
+    "duplicating Contoso data generation inside every product",
+    "claiming simulation equals the external cloud engine"
+  ]
+}
