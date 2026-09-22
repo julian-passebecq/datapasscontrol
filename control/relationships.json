@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-09-22",
+  "product_progression": [
+    {
+      "from": "datapass",
+      "to": "caselab",
+      "meaning": "Individual coding skills combine into realistic assignments."
+    },
+    {
+      "from": "caselab",
+      "to": "factorylab",
+      "meaning": "Case knowledge expands into visual orchestration/data-movement practice."
+    },
+    {
+      "from": "factorylab",
+      "to": "contoso",
+      "meaning": "Pipeline concepts operate against a broader realistic data platform."
+    }
+  ],
+  "data_and_content_flows": [
+    {
+      "from": "contoso",
+      "to": "caselab",
+      "type": "datasets_and_business_scenarios",
+      "rule": "CaseLab may consume generated Contoso fixtures without owning the generator/platform."
+    },
+    {
+      "from": "contoso",
+      "to": "factorylab",
+      "type": "datasets",
+      "rule": "FactoryLab may use Contoso source/target datasets for pipeline exercises."
+    },
+    {
+      "from": "datapass",
+      "to": "caselab",
+      "type": "exercise_patterns",
+      "rule": "Single-skill drills may graduate into multi-step cases."
+    }
+  ],
+  "runtime_flows": [
+    {
+      "service": "fastapispark",
+      "consumers": [
+        "datapass",
+        "caselab"
+      ],
+      "split": "Datapass: thin PySpark execution. CaseLab: deeper Spark execution/diagnostics/simulation."
+    },
+    {
+      "service": "fastapiflow",
+      "consumers": [
+        "datapass",
+        "caselab"
+      ],
+      "split": "Datapass: compile/validate/DAG preview. CaseLab: scheduler semantics, retries, triggers, failures, timeline."
+    },
+    {
+      "service": "fastapi-fabric",
+      "consumers": [
+        "factorylab"
+      ],
+      "split": "FactoryLab owns Data Factory pipeline runtime/control API."
+    }
+  ],
+  "ownership_rules": [
+    "dbt platform ownership -> Contoso; CaseLab may have bounded dbt exercises; Datapass should not own dbt Studio.",
+    "visual Data Factory ownership -> FactoryLab.",
+    "interview drill ownership -> Datapass.",
+    "realistic take-home/case ownership -> CaseLab.",
+    "data generation + dimensional analytics platform ownership -> Contoso.",
+    "React Flow may be reused across Airflow DAG, Data Factory pipeline and Mapping Data Flow views, but their schemas/semantics remain separate.",
+    "Notebook UI/Monaco can be reused, but each product owns its own product state and learning workflows."
+  ]
+}
