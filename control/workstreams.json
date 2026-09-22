@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-09-22",
+  "purpose": "Lightweight coordination registry. It records the current portfolio-level milestone for each product, not every coding task.",
+  "claim_protocol": {
+    "fields": [
+      "agent",
+      "branch",
+      "started_at",
+      "last_update",
+      "note"
+    ],
+    "rule": "Claims are advisory coordination metadata. Product repository branches/PRs remain the real work record."
+  },
+  "workstreams": [
+    {
+      "id": "datapass-refocus",
+      "product": "datapass",
+      "priority": "high",
+      "status": "planned",
+      "goal": "Refocus Datapass around interview coding without destroying reusable V1 assets.",
+      "next_actions": [
+        "Inventory Datapass navigation/features against the new product boundary.",
+        "Mark dbt/model/chart/factory/deep-Spark assets for extraction or hiding, not immediate deletion.",
+        "Keep Arena, notebook, Monaco, SQL/Python/pandas/Polars/PySpark and lightweight DAG scratchpad as the target core."
+      ],
+      "blocked_by": [
+        "Extract/reuse assets needed by Contoso and FactoryLab before destructive cleanup."
+      ],
+      "claim": null
+    },
+    {
+      "id": "caselab-foundation",
+      "product": "caselab",
+      "priority": "high",
+      "status": "planned",
+      "goal": "Turn the Zillacode donor into a multi-step DE assignment product.",
+      "next_actions": [
+        "Assign a canonical GitHub repository.",
+        "Import/audit the Zillacode donor content.",
+        "Convert useful Scala exercises by semantic intent rather than one-to-one translation.",
+        "Define fastapiflow contract and deeper fastapispark case integration."
+      ],
+      "blocked_by": [
+        "Canonical repo not assigned."
+      ],
+      "claim": null
+    },
+    {
+      "id": "factorylab-assembly",
+      "product": "factorylab",
+      "priority": "high",
+      "status": "ready",
+      "goal": "Assemble the existing Fabric/ADF React Flow donor UI with fastapi-fabric into a standalone learning app.",
+      "next_actions": [
+        "Assign/create the standalone frontend repository.",
+        "Extract PipelineStudio, Mapping Data Flow, Monitor and shared XYFlow mechanics from the donor.",
+        "Connect pipeline CRUD/validation/expressions/run history to fastapi-fabric.",
+        "Make Copy, Lookup and DuckDB SQL real local executors before broadening activity coverage.",
+        "Make Mapping Data Flow Data Preview execute real partial flows."
+      ],
+      "blocked_by": [],
+      "claim": null
+    },
+    {
+      "id": "contoso-foundation",
+      "product": "contoso",
+      "priority": "high",
+      "status": "ready",
+      "goal": "Build the realistic local data-platform studio around the existing Contoso generator.",
+      "next_actions": [
+        "Establish generator -> DuckDB/DuckLake local data path.",
+        "Define Bronze/Silver/Gold starter case.",
+        "Extract/reuse Datapass dbt Core/artifact/model/chart assets.",
+        "Add dimensions/facts/SCD and marts/KPIs after the local lakehouse path is stable."
+      ],
+      "blocked_by": [],
+      "claim": null
+    }
+  ]
+}
