@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-09-22",
+  "repository": "julian-passebecq/datapasscontrol",
+  "purpose": "Machine-readable portfolio architecture registry for AI agents coordinating four related data-engineering products.",
+  "source_of_truth": {
+    "portfolio_boundaries": "datapasscontrol",
+    "implementation_truth": "Each product's code repository and current tests",
+    "rule": "Never infer that target_state is implemented. Inspect the owning repository before coding or reporting completion."
+  },
+  "products": [
+    {
+      "id": "datapass",
+      "name": "Datapass",
+      "role": "Data-engineering coding and interview studio",
+      "unit_of_work": "question_or_notebook_cell",
+      "control_file": "control/projects/datapass.json",
+      "canonical_repo": "julian-passebecq/ducklabms_code",
+      "lifecycle": {
+        "current": "qualified broad local V1 workbench",
+        "target": "interview-focused Datapass",
+        "transition": "planned; extraction/refocus not yet complete"
+      }
+    },
+    {
+      "id": "caselab",
+      "name": "Zilla / CaseLab",
+      "role": "Data-engineering take-home and multi-step case simulator",
+      "unit_of_work": "assignment_or_case",
+      "control_file": "control/projects/caselab.json",
+      "canonical_repo": null,
+      "lifecycle": {
+        "current": "source archive/donor exists; canonical product repo not assigned",
+        "target": "CaseLab product around realistic DE assignments",
+        "transition": "planned"
+      }
+    },
+    {
+      "id": "factorylab",
+      "name": "Fabric Factory Lab",
+      "role": "Visual Data Factory and pipeline learning environment",
+      "unit_of_work": "pipeline_activity_or_dataflow",
+      "control_file": "control/projects/factorylab.json",
+      "canonical_repo": null,
+      "lifecycle": {
+        "current": "rich frontend donor exists in Datapass; standalone FastAPI backend exists",
+        "target": "standalone visual pipeline/data-flow learning app",
+        "transition": "assembly in progress"
+      }
+    },
+    {
+      "id": "contoso",
+      "name": "Contoso Data Studio",
+      "role": "Realistic local data-platform construction and exploration",
+      "unit_of_work": "dataset_lakehouse_or_warehouse_model",
+      "control_file": "control/projects/contoso.json",
+      "canonical_repo": "julian-passebecq/contoso-data-studio",
+      "lifecycle": {
+        "current": "canonical repo initialized but mostly empty; generator donor exists",
+        "target": "generator + DuckLake + dbt + dimensional analytics studio",
+        "transition": "early build"
+      }
+    }
+  ],
+  "shared_services": [
+    {
+      "id": "fastapispark",
+      "repo": "julian-passebecq/fastapispark",
+      "state": "implemented",
+      "consumers": [
+        "datapass",
+        "caselab"
+      ],
+      "contract": "Datapass uses bounded PySpark execution; CaseLab may expose deeper Spark planning/simulation/diagnosis."
+    },
+    {
+      "id": "fastapiflow",
+      "repo": null,
+      "candidate_repo": "julian-passebecq/datapass-airflow-runner",
+      "state": "planned",
+      "consumers": [
+        "datapass",
+        "caselab"
+      ],
+      "contract": "Datapass gets compile/validate/DAG preview only; CaseLab gets scheduler-state simulation, retries, trigger rules, failures and timelines."
+    },
+    {
+      "id": "fastapi-fabric",
+      "repo": "julian-passebecq/fastapi-fabric",
+      "state": "implemented_v0_simulation",
+      "consumers": [
+        "factorylab"
+      ],
+      "contract": "Owns pipeline definitions, validation, expressions, run history and future local/external activity executors."
+    }
+  ],
+  "control_files": {
+    "relationships": "control/relationships.json",
+    "shared_assets": "control/shared-assets.json"
+  }
+}
