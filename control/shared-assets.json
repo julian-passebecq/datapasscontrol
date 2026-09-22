@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "updated_at": "2026-09-22",
   "principle": "Share proven engines/components and patterns; do not create a premature monolithic framework or shared state database across all products.",
   "assets": [
@@ -34,7 +34,30 @@
         "factorylab",
         "caselab"
       ],
-      "reuse_rule": "Share graph mechanics only. Do not share one universal DAG/pipeline schema."
+      "reuse_rule": "Share React Flow mechanics only. Do not share one universal Airflow/Data Factory/Mapping Data Flow schema."
+    },
+    {
+      "id": "duckle",
+      "current_location": "slothflowlabs/duckle",
+      "type": "external_open_source_execution_foundation",
+      "license": "MIT OR Apache-2.0",
+      "consumers": [
+        "factorylab"
+      ],
+      "reuse_rule": "Primary FactoryLab lower-layer candidate. Prefer adapter/runner integration first; fork only if a measured adapter limitation blocks required UX/evidence.",
+      "verified_reusable_capabilities": [
+        "React Flow canvas",
+        "pipeline JSON",
+        "DuckDB execution",
+        "DuckLake I/O",
+        "generated SQL",
+        "preview/status/rows/timings",
+        "column lineage",
+        "scheduling/run history",
+        "control flow",
+        "dbt execution",
+        "MCP"
+      ]
     },
     {
       "id": "fastapispark",
@@ -49,11 +72,11 @@
     {
       "id": "fastapi_fabric",
       "current_location": "julian-passebecq/fastapi-fabric",
-      "type": "specialist_service",
+      "type": "specialist_semantic_adapter",
       "consumers": [
         "factorylab"
       ],
-      "reuse_rule": "Canonical backend seed for FactoryLab."
+      "reuse_rule": "Canonical Fabric-semantic/control API seed. If Duckle integration succeeds, do not grow it into a duplicate generic ETL engine."
     },
     {
       "id": "contoso_generator",
@@ -82,6 +105,8 @@
     "one universal graph schema for Airflow, Data Factory and data flows",
     "duplicating dbt platform code in Datapass and CaseLab",
     "duplicating Contoso data generation inside every product",
-    "claiming simulation equals the external cloud engine"
+    "claiming simulation equals the external cloud engine",
+    "writing a new general FactoryLab ETL executor before the Duckle integration/fork spike",
+    "forking all of Duckle by default when its stable JSON/CLI/HTTP boundaries are sufficient"
   ]
 }
