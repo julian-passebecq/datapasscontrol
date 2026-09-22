@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "id": "datapass",
+  "name": "Datapass",
+  "tagline": "Data Engineering Coding Studio",
+  "canonical_repo": "julian-passebecq/ducklabms_code",
+  "product_goal": "Prepare for data-engineering coding and technical interviews through fast drills, notebooks, algorithms and graded exercises.",
+  "current_state": {
+    "summary": "The current qualified V1 is broader than the target product and already contains notebooks, Arena, DuckDB/DuckLake, Python/pandas/Polars, dbt, pipeline/model/chart resources, SparkLab and Fabric donor code.",
+    "release_truth": "Current main remains the implementation authority until the refocus is actually performed.",
+    "important_asset_status": "Do not delete broad V1 assets before their target product has extracted or reused what it needs."
+  },
+  "target_state": {
+    "primary_surfaces": [
+      "LeetCode-style Arena",
+      "Jupyter/Deepnote-style notebook",
+      "Microsoft Fabric-inspired notebook presentation",
+      "Algorithms and coding-pattern area",
+      "Progress/review/mock-interview flows"
+    ],
+    "primary_languages_and_kernels": [
+      "SQL",
+      "T-SQL bounded/interview mode",
+      "Python",
+      "pandas",
+      "Polars",
+      "PySpark bounded mode"
+    ],
+    "thin_optional_surfaces": [
+      "small DuckDB/DuckLake data explorer for current exercise fixtures",
+      "Airflow Python scratchpad: code -> parse/validate -> DAG preview",
+      "Fabric-style notebook skin"
+    ],
+    "owns": [
+      "exercise registry and grading",
+      "visible/hidden/edge checks",
+      "attempt history and progress",
+      "notebook authoring and kernel switching",
+      "coding algorithms and DE coding patterns",
+      "small deterministic exercise fixtures"
+    ],
+    "does_not_own": [
+      "full dbt project studio",
+      "dbt Charts authoring",
+      "dimensional-model/SCD product surfaces",
+      "warehouse/lakehouse engineering curriculum beyond small fixtures",
+      "full visual Data Factory pipeline product",
+      "deep Spark cluster simulation UI",
+      "deep Airflow scheduler simulation"
+    ]
+  },
+  "shared_runtime_contracts": {
+    "fastapispark": {
+      "role": "Bounded PySpark execution service",
+      "product_exposure": "Keep PySpark notebook freedom, but do not turn Datapass into the Spark simulation product."
+    },
+    "fastapiflow": {
+      "role": "Planned DAG compile/validate service",
+      "product_exposure": "Only lightweight Airflow coding and DAG preview in Datapass."
+    }
+  },
+  "planned_extractions": [
+    {
+      "asset": "dbt Core runner, artifacts and dbt project surfaces",
+      "destination": "contoso",
+      "action": "reuse/extract before hiding from Datapass"
+    },
+    {
+      "asset": "charts, dimensional model and SCD teaching resources",
+      "destination": "contoso",
+      "action": "reuse/extract"
+    },
+    {
+      "asset": "Fabric/ADF pipeline donor UI including Mapping Data Flow",
+      "destination": "factorylab",
+      "action": "extract as standalone frontend donor"
+    },
+    {
+      "asset": "deep Spark simulation/diagnostic teaching",
+      "destination": "caselab",
+      "action": "move product ownership while keeping shared execution service"
+    }
+  ],
+  "non_goals": [
+    "becoming a complete cloud data platform",
+    "duplicating Contoso's data-platform studio",
+    "duplicating FactoryLab's visual pipeline authoring",
+    "hosting a production Spark or Airflow cluster"
+  ]
+}
